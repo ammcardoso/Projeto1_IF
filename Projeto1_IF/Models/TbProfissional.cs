@@ -2,21 +2,28 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projeto1_IF.Models;
 
 public partial class TbProfissional
 {
+    
     public int IdProfissional { get; set; }
 
+    [Display(Name = "Área de Atuação")]
     public int? IdTipoProfissional { get; set; }
 
     public int IdContrato { get; set; }
 
+    [Display(Name = "Tipo de Acesso")]
     public int? IdTipoAcesso { get; set; }
 
+    [Display(Name = "Cidade")]
     public int IdCidade { get; set; }
 
+    [Required]
+    [StringLength(128)]
     public string IdUser { get; set; }
 
     public string Nome { get; set; }

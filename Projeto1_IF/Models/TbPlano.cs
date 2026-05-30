@@ -2,11 +2,13 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projeto1_IF.Models;
 
 public partial class TbPlano
 {
+    [Display(Name = "Plano")]
     public int IdPlano { get; set; }
 
     public string Nome { get; set; }
