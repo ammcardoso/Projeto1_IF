@@ -56,8 +56,10 @@ public partial class TbProfissional
 
     public decimal? Salario { get; set; }
 
+    [Display(Name = "Cidade")]
     public virtual TbCidade IdCidadeNavigation { get; set; }
 
+    [Display(Name = "Plano")]
     public virtual TbContrato IdContratoNavigation { get; set; }
 
     public virtual TbTipoAcesso IdTipoAcessoNavigation { get; set; }

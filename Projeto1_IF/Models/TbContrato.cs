@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projeto1_IF.Models;
 
@@ -15,6 +16,7 @@ public partial class TbContrato
 
     public DateTime? DataFim { get; set; }
 
+    [Display(Name = "Plano")]
     public virtual TbPlano IdPlanoNavigation { get; set; }
 
     public virtual ICollection<TbProfissional> TbProfissionals { get; set; } = new List<TbProfissional>();
