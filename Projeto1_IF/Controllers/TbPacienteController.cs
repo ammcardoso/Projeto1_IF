@@ -8,13 +8,13 @@ namespace Projeto1_IF.Controllers
     public class TbPacienteController : Controller
     {
         private readonly db_IFContext _context;
-
         public TbPacienteController(db_IFContext context)
         {
             _context = context;
         }
 
         // GET: TbPaciente
+        //Adriana Cardoso 
         public async Task<IActionResult> Index()
         {
             var db_IFContext = _context.TbPacientes.Include(t => t.IdCidadeNavigation);
@@ -22,25 +22,26 @@ namespace Projeto1_IF.Controllers
         }
 
         // GET: TbPaciente/Details/5
+        //Adriana Cardoso 
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var tbPaciente = await _context.TbPacientes
                 .Include(t => t.IdCidadeNavigation)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.IdPaciente == id);
             if (tbPaciente == null)
             {
                 return NotFound();
             }
-
             return View(tbPaciente);
         }
 
         // GET: TbPaciente/Create
+        //Adriana Cardoso 
         public IActionResult Create()
         {
             ViewData["IdCidade"] = new SelectList(_context.TbCidades, "IdCidade", "Nome");
@@ -48,30 +49,38 @@ namespace Projeto1_IF.Controllers
         }
 
         // POST: TbPaciente/Create
+        //Adriana Cardoso 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,Rg,Cpf,DataNascimento,NomeResponsavel,Sexo,Etnia,Endereco,Bairro,IdCidade,TelResidencial,TelComercial,TelCelular,Profissao,FlgAtleta,FlgGestante")] TbPaciente tbPaciente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(tbPaciente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(tbPaciente);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Ocorreu um erro ao criar o paciente: {ex.Message}");
             }
             ViewData["IdCidade"] = new SelectList(_context.TbCidades, "IdCidade", "Nome", tbPaciente.IdCidade);
             return View(tbPaciente);
         }
 
         // GET: TbPaciente/Edit/5
+        //Adriana Cardoso 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home"); 
             }
-
             var tbPaciente = await _context.TbPacientes.FindAsync(id);
             if (tbPaciente == null)
             {
@@ -82,78 +91,102 @@ namespace Projeto1_IF.Controllers
         }
 
         // POST: TbPaciente/Edit/5
+        //Adriana Cardoso 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPaciente,Nome,Rg,Cpf,DataNascimento,NomeResponsavel,Sexo,Etnia,Endereco,Bairro,IdCidade,TelResidencial,TelComercial,TelCelular,Profissao,FlgAtleta,FlgGestante")] TbPaciente tbPaciente)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != tbPaciente.IdPaciente)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            var tbPaciente = await _context.TbPacientes.FirstOrDefaultAsync(s => s.IdPaciente == id);
+            if (tbPaciente == null)
+            {
+                return NotFound();
+            }
+            if (await TryUpdateModelAsync<TbPaciente>(
+                tbPaciente,
+                "",
+                s => s.IdPaciente,
+                s => s.Nome,
+                s => s.Rg,
+                s => s.Cpf,
+                s => s.DataNascimento,
+                s => s.NomeResponsavel,
+                s => s.Sexo,
+                s => s.Etnia,
+                s => s.Endereco,
+                s => s.Bairro,
+                s => s.IdCidade,
+                s => s.TelResidencial,
+                s => s.TelComercial,
+                s => s.TelCelular,
+                s => s.Profissao,
+                s => s.FlgAtleta,
+                s => s.FlgGestante))
             {
                 try
                 {
-                    _context.Update(tbPaciente);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException ex)
                 {
-                    if (!TbPacienteExists(tbPaciente.IdPaciente))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("",
+                        "Não foi possível salvar as alterações. " + ex.ToString());
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["IdCidade"] = new SelectList(_context.TbCidades, "IdCidade", "Nome", tbPaciente.IdCidade);
             return View(tbPaciente);
         }
 
         // GET: TbPaciente/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        //Adriana Cardoso 
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var tbPaciente = await _context.TbPacientes
                 .Include(t => t.IdCidadeNavigation)
+                .AsNoTracking() 
                 .FirstOrDefaultAsync(m => m.IdPaciente == id);
             if (tbPaciente == null)
             {
                 return NotFound();
             }
-
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] = "A exclusão falhou. Tente novamente.";
+            }
             return View(tbPaciente);
         }
 
         // POST: TbPaciente/Delete/5
+        //Adriana Cardoso 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tbPaciente = await _context.TbPacientes.FindAsync(id);
-            if (tbPaciente != null)
+            if (tbPaciente == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            try
             {
                 _context.TbPacientes.Remove(tbPaciente);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool TbPacienteExists(int id)
-        {
-            return _context.TbPacientes.Any(e => e.IdPaciente == id);
+            catch (DbUpdateException /*ex*/)
+            {
+                return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
+            }
         }
     }
 }
