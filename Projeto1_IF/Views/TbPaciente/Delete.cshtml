@@ -151,12 +151,15 @@
             @Html.DisplayFor(model => model.IdCidadeNavigation.Nome)
         </dd>
     </dl>
-    
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdPaciente" />
-        <input type="submit" value="Excluir" class="btn btn-danger" /> 
-        <a asp-action="Index" class="btn btn-secondary">
-            <i class="bi bi-arrow-left-short"></i> Voltar Lista de Pacientes
-        </a>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash me-2"></i>Excluir
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left-short me-1"></i>Voltar para a Lista
+            </a>
+        </div>
     </form>
 </div>

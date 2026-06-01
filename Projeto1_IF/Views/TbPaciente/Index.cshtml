@@ -8,7 +8,7 @@
 
 <p>
     <a asp-action="Create" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>Cadastrar Paciente
+        <i class="bi bi-plus-lg"></i> Cadastrar Paciente
     </a>
 </p>
 <table class="table">
@@ -80,54 +80,54 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NomeResponsavel)
             </td>
-                <td>
-                    @switch (item.Sexo?.ToString())
-                    {
-                        case "F":
-                            <span>Feminino</span>
-                            break;
-                        case "M":
+            <td>
+                @switch (item.Sexo?.ToString())
+                {
+                    case "F":
+                        <span>Feminino</span>
+                        break;
+                    case "M":
 
-                            <span>Masculino</span>
-                            break;
-                        case "O":
+                        <span>Masculino</span>
+                        break;
+                    case "O":
 
-                            <span>Outros</span>
-                            break;
-                        default:
+                        <span>Outros</span>
+                        break;
+                    default:
 
-                            <span>Não Informado</span>
-                            break;
-                    }
-                </td>
-                <td>
-                    @switch (item.Etnia.ToString())
-                    {
-                        case "1":
-                            <span>Pardo</span>
-                            break;
-                        case "2":
+                        <span>Não Informado</span>
+                        break;
+                }
+            </td>
+            <td>
+                @switch (item.Etnia.ToString())
+                {
+                    case "1":
+                        <span>Pardo</span>
+                        break;
+                    case "2":
 
-                            <span>Preto</span>
-                            break;
-                        case "3":
+                        <span>Preto</span>
+                        break;
+                    case "3":
 
-                            <span>Branco</span>
-                            break;
-                        case "4":
+                        <span>Branco</span>
+                        break;
+                    case "4":
 
-                            <span>Amarelo</span>
-                            break;
-                        case "5":
+                        <span>Amarelo</span>
+                        break;
+                    case "5":
 
-                            <span>Outro</span>
-                            break;
-                        default:
+                        <span>Outro</span>
+                        break;
+                    default:
 
-                            <span>Não Informado</span>
-                            break;
-                    }
-                </td>
+                        <span>Não Informado</span>
+                        break;
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Endereco)
             </td>
@@ -146,24 +146,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Profissao)
             </td>
-                <td>
-                    @(item.FlgAtleta == true ? "Sim" : item.FlgAtleta == false ? "Não" : "Não Informado")
-                </td>
-                <td>
-                    @(item.FlgGestante == true ? "Sim" : item.FlgGestante == false ? "Não" : "Não Informado")
-                </td>
+            <td>
+                @(item.FlgAtleta == true ? "Sim" : item.FlgAtleta == false ? "Não" : "Não Informado")
+            </td>
+            <td>
+                @(item.FlgGestante == true ? "Sim" : item.FlgGestante == false ? "Não" : "Não Informado")
+            </td>
             <td>
                 <div class="d-flex gap-2">
-                    <a asp-action="Edit" asp-route-id="@item.IdPaciente" class="btn btn-primary" title="Editar">
-                        <i class="bi bi-pencil-square"></i> Editar
+                    <a asp-action="Edit" asp-route-id="@item.IdPaciente" class="btn btn-primary btn-sm" title="Editar">
+                        <i class="bi bi-pencil-square me-1"></i> Editar
                     </a>
 
-                    <a asp-action="Details" asp-route-id="@item.IdPaciente" class="btn btn-warning" title="Detalhes">
-                        <i class="bi bi-eye"></i> Detalhes
+                    <a asp-action="Details" asp-route-id="@item.IdPaciente" class="btn btn-warning btn-sm text-dark" title="Detalhes">
+                        <i class="bi bi-eye me-1"></i> Detalhes
                     </a>
 
-                    <a asp-action="Delete" asp-route-id="@item.IdPaciente" class="btn btn-danger" title="Excluir">
-                        <i class="bi bi-trash"></i> Excluir
+                    <a asp-action="Delete" asp-route-id="@item.IdPaciente" class="btn btn-danger btn-sm" title="Excluir">
+                        <i class="bi bi-trash me-1"></i> Excluir
                     </a>
                 </div>
             </td>
