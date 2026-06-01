@@ -1,5 +1,6 @@
 /*
- * Tradução em Português-Brasil (pt-BR) para o plugin jQuery Validation.
+ * Adriana Cardoso
+ * Tradução em Português-Brasil (pt-BR) para o plugin jQuery Validation 
  */
 jQuery.extend(jQuery.validator.messages, {
     required: "Este campo é obrigatório.",
